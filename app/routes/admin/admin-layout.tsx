@@ -7,15 +7,15 @@ import { getExistingUser } from "~/appwrite/auth";
 export async function clientLoader() {
   try {
     const sessionUser = await account.get();
-    if (!sessionUser?.$id) return redirect("/sign-in");
+    if (!sessionUser?.$id) return redirect("/");
 
     const existingUser = await getExistingUser(sessionUser.$id);
-    if (!existingUser) return redirect("/sign-in");
+    if (!existingUser) return redirect("/");
 
     return existingUser; // admin/user 都返回
   } catch (e) {
     console.error("Error in AdminLayout loader", e);
-    return redirect("/sign-in");
+    return redirect("/");
   }
 }
 

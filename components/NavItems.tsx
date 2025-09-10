@@ -9,7 +9,7 @@ const NavItems = ({ handleClick }: { handleClick?: () => void }) => {
 
   const handleLogout = async () => {
     await logoutUser();
-    navigate("/sign-in");
+    navigate("/");
   };
 
   // 過濾 sidebarItems，如果 user 不是 admin，就不顯示 All Users

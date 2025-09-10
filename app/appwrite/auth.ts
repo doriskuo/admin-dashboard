@@ -40,7 +40,7 @@ export const storeUserData = async () => {
       }
     );
 
-    if (!createdUser.$id) redirect("/sign-in");
+    if (!createdUser.$id) redirect("/");
   } catch (error) {
     console.error("Error storing user data:", error);
   }
@@ -85,7 +85,7 @@ export const logoutUser = async () => {
 export const getUser = async () => {
   try {
     const user = await account.get();
-    if (!user) return redirect("/sign-in");
+    if (!user) return redirect("/");
 
     const { documents } = await database.listDocuments(
       appwriteConfig.databaseId,
@@ -103,7 +103,7 @@ export const getUser = async () => {
       ]
     );
 
-    return documents.length > 0 ? documents[0] : redirect("/sign-in");
+    return documents.length > 0 ? documents[0] : redirect("/");
   } catch (error) {
     console.error("Error fetching user:", error);
     return null;

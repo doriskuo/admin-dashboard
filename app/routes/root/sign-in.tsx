@@ -1,16 +1,17 @@
 import { Link, redirect } from "react-router";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
-import { loginWithGoogle, getUser } from "~/appwrite/auth"; // ✅ 移除 storeUserData
-import { useEffect } from "react";
+import { loginWithGoogle, storeUserData } from "~/appwrite/auth";
+import { account } from "~/appwrite/client";
 
 export async function clientLoader() {
   try {
-    const user = await getUser();
-    if (user) return redirect("/dashboard");
+    const user = await account.get();
+    if (!user.$id) return null;
+    await storeUserData();
+    return redirect("/dashboard");
   } catch (e) {
-    console.log("No logged in user", e);
+    console.log("Error fetching user", e);
   }
-  return null; // 繼續渲染 SignIn 畫面
 }
 
 const SignIn = () => {
@@ -44,7 +45,7 @@ const SignIn = () => {
             type="button"
             iconCss="e-search-icon"
             className="button-class !h-11 !w-full"
-            onClick={loginWithGoogle} // ✅ 呼叫 Google OAuth
+            onClick={loginWithGoogle}
           >
             <img
               src="/assets/icons/google.svg"
