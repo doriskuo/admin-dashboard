@@ -1,7 +1,7 @@
 import { Link, redirect } from "react-router";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
-import { getUser, loginWithGoogle } from "~/appwrite/auth";
-import { account } from "~/appwrite/client";
+import { getUser, loginWithGoogle, storeUserData } from "~/appwrite/auth"; // ✅ 多引入 storeUserData
+import { useEffect } from "react";
 
 export async function clientLoader() {
   try {
@@ -14,6 +14,18 @@ export async function clientLoader() {
 }
 
 const SignIn = () => {
+  // ✅ 在元件掛載時嘗試寫入新使用者資料
+  useEffect(() => {
+    const initUser = async () => {
+      try {
+        await storeUserData();
+      } catch (error) {
+        console.error("Error storing user:", error);
+      }
+    };
+    initUser();
+  }, []);
+
   return (
     <main className="auth">
       <section className="size-full glassmorphism flex-center px-6">
@@ -60,4 +72,5 @@ const SignIn = () => {
     </main>
   );
 };
+
 export default SignIn;
