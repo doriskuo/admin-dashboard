@@ -1,6 +1,6 @@
 import { Link, redirect } from "react-router";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
-import { getUser, loginWithGoogle, storeUserData } from "~/appwrite/auth"; // ✅ 多引入 storeUserData
+import { loginWithGoogle, getUser } from "~/appwrite/auth"; // ✅ 移除 storeUserData
 import { useEffect } from "react";
 
 export async function clientLoader() {
@@ -14,18 +14,6 @@ export async function clientLoader() {
 }
 
 const SignIn = () => {
-  // ✅ 在元件掛載時嘗試寫入新使用者資料
-  useEffect(() => {
-    const initUser = async () => {
-      try {
-        await storeUserData();
-      } catch (error) {
-        console.error("Error storing user:", error);
-      }
-    };
-    initUser();
-  }, []);
-
   return (
     <main className="auth">
       <section className="size-full glassmorphism flex-center px-6">
@@ -56,7 +44,7 @@ const SignIn = () => {
             type="button"
             iconCss="e-search-icon"
             className="button-class !h-11 !w-full"
-            onClick={loginWithGoogle}
+            onClick={loginWithGoogle} // ✅ 呼叫 Google OAuth
           >
             <img
               src="/assets/icons/google.svg"
